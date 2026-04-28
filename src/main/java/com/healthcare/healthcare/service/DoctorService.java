@@ -40,5 +40,10 @@ public class DoctorService {
         return doctorMapper.toDtos(doctorRepository.findAll());
     }
 
-
+    public DoctorResponseDTO updateDoctor(Long id ,DoctorRequestDTO dto){
+        Doctor doctor = doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("patient not found"));
+        doctorMapper.updateEntityFromDto(dto,doctor);
+        return doctorMapper.toDto(doctorRepository.save(doctor));
+    }
 }
