@@ -13,7 +13,7 @@ public interface MedicalRecordMapper {
     @Mapping(source = "patientId", target = "patient.id")
     MedicalRecord toEntity(MedicalRecordRequestDTO dto);
 
-    @Mapping(source = "patientId", target = "patient.id")
+    @Mapping(source = "patient.id", target = "patientId")
     MedicalRecordResponseDTO toDto(MedicalRecord medicalRecord);
 
     List<MedicalRecordResponseDTO> toDtos(List<MedicalRecord>medicalRecords);

@@ -24,7 +24,7 @@ public class Patient {
     @Column
     private String prenom;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column

@@ -14,8 +14,8 @@ public interface AppointmentMapper {
     @Mapping(source = "doctorId",target = "doctor.id")
     Appointment toEntity(AppointmentRequestDTO dto);
 
-    @Mapping(source = "patientId", target = "patient.id")
-    @Mapping(source = "doctorId",target = "doctor.id")
+    @Mapping(source = "patient.id", target = "patientId")
+    @Mapping(source = "doctor.id",target = "doctorId")
     AppointmentResponseDTO toDto(Appointment appointment);
 
     List<AppointmentResponseDTO> toDtos(List<Appointment> appointments);
