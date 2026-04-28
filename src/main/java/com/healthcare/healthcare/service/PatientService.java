@@ -43,5 +43,12 @@ public class PatientService {
         return patientMapper.toDto(patient);
     }
 
+    public PatientResponseDTO updatePatient(Long id ,PatientRequestDTO dto){
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("patient not found"));
+        patientMapper.updateEntityFromDto(dto,patient);
+        return patientMapper.toDto(patientRepository.save(patient));
+    }
+
 
 }
