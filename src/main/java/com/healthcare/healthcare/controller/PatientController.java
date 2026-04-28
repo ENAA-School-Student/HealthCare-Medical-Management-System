@@ -3,12 +3,10 @@ package com.healthcare.healthcare.controller;
 import com.healthcare.healthcare.dto.PatientRequestDTO;
 import com.healthcare.healthcare.dto.PatientResponseDTO;
 import com.healthcare.healthcare.service.PatientService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +29,14 @@ public class PatientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePatient(@Valid @PathVariable Long id){
+    public ResponseEntity<Void> deletePatient(@PathVariable Long id){
         patientService.deletePatient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientResponseDTO> findPatientById(@PathVariable Long id){
+        return ResponseEntity.ok(patientService.findPatientById(id));
     }
 
 }

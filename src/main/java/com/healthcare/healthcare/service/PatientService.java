@@ -18,7 +18,7 @@ public class PatientService {
     final PatientMapper patientMapper;
 
     public PatientResponseDTO addPatient( PatientRequestDTO dto){
-        if(patientRepository.existsPatientById(dto.getEmail())){
+        if(patientRepository.existsPatientByEmail(dto.getEmail())){
             throw new RuntimeException("Patient already exist with Email " + dto.getEmail());
         }
 
@@ -35,6 +35,12 @@ public class PatientService {
             throw new RuntimeException("patient with id:" + id + "not found");
         }
         patientRepository.deleteById(id);
+    }
+
+    public PatientResponseDTO findPatientById(Long id){
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("patient not found"));
+        return patientMapper.toDto(patient);
     }
 
 

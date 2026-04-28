@@ -12,7 +12,7 @@ public class PatientResponseDTO {
 
     private Long id;
     private String nom ;
-    private String premon;
+    private String prenom;
     private String email;
     private String telephone;
     private LocalDate dateNaissance;
