@@ -8,6 +8,8 @@ import com.healthcare.healthcare.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class PatientService {
@@ -22,6 +24,17 @@ public class PatientService {
 
         Patient patient = patientMapper.toEntity(dto);
         return patientMapper.toDto(patientRepository.save(patient));
+    }
+
+    public List<PatientResponseDTO> listOfPatients(){
+        return patientMapper.toDtos(patientRepository.findAll());
+    }
+
+    public void deletePatient(Long id){
+        if(!patientRepository.existsById(id)){
+            throw new RuntimeException("patient with id:" + id + "not found");
+        }
+        patientRepository.deleteById(id);
     }
 
 
