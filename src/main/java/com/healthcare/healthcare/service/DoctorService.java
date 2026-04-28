@@ -26,4 +26,11 @@ public class DoctorService {
         Doctor doctor = doctorMapper.toEntity(dto);
         return doctorMapper.toDto(doctorRepository.save(doctor));
     }
+
+    public void deleteDoctor(Long id){
+        if(!doctorRepository.existsById(id)){
+            throw new RuntimeException("doctor with id:" + id + "not found");
+        }
+        doctorRepository.deleteById(id);
+    }
 }
