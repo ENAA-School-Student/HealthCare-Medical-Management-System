@@ -2,8 +2,10 @@ package com.healthcare.healthcare.mapper;
 
 import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
+import com.healthcare.healthcare.dto.PatientRequestDTO;
 import com.healthcare.healthcare.entity.Doctor;
-import org.mapstruct.Mapper;
+import com.healthcare.healthcare.entity.Patient;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -14,4 +16,7 @@ public interface DoctorMapper {
     DoctorResponseDTO toDto(Doctor patient);
 
     List<DoctorResponseDTO> toDtos(List<Doctor>doctors);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromDto(DoctorRequestDTO dto, @MappingTarget Doctor doctor);
 }
