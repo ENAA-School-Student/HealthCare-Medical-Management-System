@@ -11,6 +11,8 @@ import com.healthcare.healthcare.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DoctorService {
@@ -33,4 +35,10 @@ public class DoctorService {
         }
         doctorRepository.deleteById(id);
     }
+
+    public List<DoctorResponseDTO> listOfDoctors(){
+        return doctorMapper.toDtos(doctorRepository.findAll());
+    }
+
+
 }

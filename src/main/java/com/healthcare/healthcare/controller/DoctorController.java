@@ -2,11 +2,14 @@ package com.healthcare.healthcare.controller;
 
 import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
+import com.healthcare.healthcare.dto.PatientResponseDTO;
 import com.healthcare.healthcare.service.DoctorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/Doctors")
@@ -23,5 +26,10 @@ public class DoctorController {
     public ResponseEntity<Void> deleteDoctor(@PathVariable Long id){
         doctorService.deleteDoctor(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DoctorResponseDTO>> listOfDoctors(){
+        return ResponseEntity.ok(doctorService.listOfDoctors());
     }
 }
