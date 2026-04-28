@@ -17,7 +17,7 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
-    @Column
+    @Column(name = "dateRendezVous")
     private LocalDateTime dateRendezVous;
 
     @Column

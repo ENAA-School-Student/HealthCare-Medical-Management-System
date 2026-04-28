@@ -22,7 +22,7 @@ public class Patient {
     private String nom ;
 
     @Column
-    private String premon;
+    private String prenom;
 
     @Column
     private String email;

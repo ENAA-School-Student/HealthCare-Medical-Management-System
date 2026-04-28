@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class DoctorRequestDTO {
-  @NotBlank(,message = "the name is required ")
+  @NotBlank(message = "the name is required ")
     private String nom;
 
   @NotBlank(message = "specialite is required")
