@@ -61,4 +61,9 @@ public class AppointmentService {
         return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 
+    public List<AppointmentResponseDTO> findAppointmentByPatientId(Long patientid){
+        List<Appointment> appointments = appointmentRepository.findByPatient_Id(patientid);
+        return appointmentMapper.toDtos(appointments);
+    }
+
 }

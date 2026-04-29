@@ -40,4 +40,9 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponseDTO> updateAppointment(@Valid @PathVariable Long id , @RequestBody AppointmentRequestDTO dto){
         return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
     }
+
+    @GetMapping("/{patientId}")
+    public ResponseEntity<List<AppointmentResponseDTO>> findAppointmentByPatientId(@PathVariable Long patientId) {
+        return ResponseEntity.ok(appointmentService.findAppointmentByPatientId(patientId));
+    }
 }
