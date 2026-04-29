@@ -2,9 +2,10 @@ package com.healthcare.healthcare.mapper;
 
 import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
+import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.entity.Appointment;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import com.healthcare.healthcare.entity.Doctor;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -24,4 +25,11 @@ public interface AppointmentMapper {
     AppointmentResponseDTO toDto(Appointment appointment);
 
     List<AppointmentResponseDTO> toDtos(List<Appointment> appointments);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id",      ignore = true)
+    @Mapping(target = "patient", ignore = true)
+    @Mapping(target = "doctor",  ignore = true)
+    void updateEntityFromDto(AppointmentRequestDTO dto, @MappingTarget Appointment appointment);
+
 }
