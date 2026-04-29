@@ -1,6 +1,7 @@
 package com.healthcare.healthcare.mapper;
 
 import com.healthcare.healthcare.dto.MedicalRecordDiagnosticRequestDTO;
+import com.healthcare.healthcare.dto.MedicalRecordObservationRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordResponseDTO;
 import com.healthcare.healthcare.entity.MedicalRecord;
@@ -26,5 +27,10 @@ public interface MedicalRecordMapper {
     @Mapping(target = "dateCreation",ignore = true)
     @Mapping(target = "patient",     ignore = true)
     void updateEntityFromDto(MedicalRecordDiagnosticRequestDTO dto, @MappingTarget MedicalRecord medicalRecord);
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id",          ignore = true)
+    @Mapping(target = "observation", ignore = true)
+    @Mapping(target = "dateCreation",ignore = true)
+    @Mapping(target = "patient",     ignore = true)
+    void updateEntityFromObservationDto(MedicalRecordObservationRequestDTO dto,@MappingTarget MedicalRecord medicalRecord);
 }
