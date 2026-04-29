@@ -2,7 +2,7 @@ package com.healthcare.healthcare.dto;
 
 import com.healthcare.healthcare.entity.AppointmentStatus;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class AppointmentRequestDTO {
-    @NotBlank(message = "Appointment date is required")
+    @NotNull(message = "Appointment date is required")
     @Future(message = "date should be at the future")
     private LocalDateTime dateRendezVous;
-    @NotBlank(message = "status is required")
+    @NotNull(message = "status is required")
     private AppointmentStatus status;
-    @NotBlank(message = "patient id is required")
+    @NotNull(message = "patient id is required")
     private Long patientId;
-    @NotBlank(message = "doctor id is required")
+    @NotNull(message = "doctor id is required")
     private Long doctorId;
 }
