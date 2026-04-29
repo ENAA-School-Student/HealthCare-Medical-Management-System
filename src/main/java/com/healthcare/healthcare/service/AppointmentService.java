@@ -38,6 +38,12 @@ public class AppointmentService {
         return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 
+    public void deleteAppointment(Long id){
+        if (!appointmentRepository.existsById(id)){
+            throw new RuntimeException("appointment with id: " + id + "not found");
+        }
 
+        appointmentRepository.deleteById(id);
+    }
 
 }
