@@ -13,6 +13,8 @@ public interface MedicalRecordMapper {
     @Mapping(source = "patientId", target = "patient.id")
     MedicalRecord toEntity(MedicalRecordRequestDTO dto);
 
+    @Mapping(source = "patient.nom",       target = "patientNom")
+    @Mapping(source = "patient.prenom",    target = "patientprenom")
     @Mapping(source = "patient.id", target = "patientId")
     MedicalRecordResponseDTO toDto(MedicalRecord medicalRecord);
 
