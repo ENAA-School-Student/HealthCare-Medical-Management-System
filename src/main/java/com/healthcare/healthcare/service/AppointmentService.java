@@ -2,6 +2,7 @@ package com.healthcare.healthcare.service;
 
 import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
+import com.healthcare.healthcare.dto.DoctorResponseDTO;
 import com.healthcare.healthcare.entity.Appointment;
 import com.healthcare.healthcare.entity.Doctor;
 import com.healthcare.healthcare.entity.Patient;
@@ -11,6 +12,8 @@ import com.healthcare.healthcare.repository.DoctorRepository;
 import com.healthcare.healthcare.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +47,10 @@ public class AppointmentService {
         }
 
         appointmentRepository.deleteById(id);
+    }
+
+    public List<AppointmentResponseDTO> listOfAppointments(){
+        return appointmentMapper.toDtos(appointmentRepository.findAll());
     }
 
 }
