@@ -2,6 +2,7 @@ package com.healthcare.healthcare.service;
 
 import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
+import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
 import com.healthcare.healthcare.entity.Appointment;
 import com.healthcare.healthcare.entity.Doctor;
@@ -51,6 +52,13 @@ public class AppointmentService {
 
     public List<AppointmentResponseDTO> listOfAppointments(){
         return appointmentMapper.toDtos(appointmentRepository.findAll());
+    }
+
+    public AppointmentResponseDTO updateAppointment(Long id , AppointmentRequestDTO dto){
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("appointment not found"));
+        appointmentMapper.updateEntityFromDto(dto,appointment);
+        return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 
 }

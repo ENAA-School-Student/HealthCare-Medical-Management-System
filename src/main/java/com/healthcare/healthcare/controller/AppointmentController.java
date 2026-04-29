@@ -2,6 +2,7 @@ package com.healthcare.healthcare.controller;
 
 import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
+import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
 import com.healthcare.healthcare.service.AppointmentService;
 import jakarta.validation.Valid;
@@ -33,5 +34,10 @@ public class AppointmentController {
     @GetMapping
     public ResponseEntity<List<AppointmentResponseDTO>> listOfAppointments(){
         return ResponseEntity.ok(appointmentService.listOfAppointments());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AppointmentResponseDTO> updateAppointment(@Valid @PathVariable Long id , @RequestBody AppointmentRequestDTO dto){
+        return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
     }
 }
