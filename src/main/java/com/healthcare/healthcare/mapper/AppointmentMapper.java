@@ -24,7 +24,8 @@ public interface AppointmentMapper {
     @Mapping(source = "doctor.specialite", target = "doctorSpecialite")
     AppointmentResponseDTO toDto(Appointment appointment);
 
-    List<AppointmentResponseDTO> toDtos(List<Appointment> appointment
+    List<AppointmentResponseDTO> toDtos(List<Appointment> appointments);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id",      ignore = true)
     @Mapping(target = "patient", ignore = true)
