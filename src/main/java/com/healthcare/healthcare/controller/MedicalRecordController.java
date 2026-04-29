@@ -1,6 +1,7 @@
 package com.healthcare.healthcare.controller;
 
 import com.healthcare.healthcare.dto.MedicalRecordDiagnosticRequestDTO;
+import com.healthcare.healthcare.dto.MedicalRecordObservationRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordResponseDTO;
 import com.healthcare.healthcare.service.MedicalRecordService;
@@ -25,6 +26,11 @@ public class MedicalRecordController {
     @PatchMapping("/{id}/diagnostic")
     public ResponseEntity<MedicalRecordResponseDTO> addDiagnostic(@PathVariable Long id, @Valid @RequestBody MedicalRecordDiagnosticRequestDTO dto) {
         return ResponseEntity.ok(medicalRecordService.addDiagnostic(id, dto));
+    }
+
+    @PatchMapping("/{id}/observation")
+    public ResponseEntity<MedicalRecordResponseDTO> addObservation(@PathVariable Long id, @Valid @RequestBody MedicalRecordObservationRequestDTO dto) {
+        return ResponseEntity.ok(medicalRecordService.addObservation(id, dto));
     }
 
 }

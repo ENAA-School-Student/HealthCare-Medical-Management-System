@@ -1,6 +1,7 @@
 package com.healthcare.healthcare.service;
 
 import com.healthcare.healthcare.dto.MedicalRecordDiagnosticRequestDTO;
+import com.healthcare.healthcare.dto.MedicalRecordObservationRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordResponseDTO;
 import com.healthcare.healthcare.entity.MedicalRecord;
@@ -41,6 +42,12 @@ public class MedicalRecordService {
         MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(() -> new RuntimeException("medical record with id : "+ id + "not found"));
 
         medicalRecordMapper.updateEntityFromDto(dto,medicalRecord);
+        return medicalRecordMapper.toDto(medicalRecordRepository.save(medicalRecord));
+    }
+    public MedicalRecordResponseDTO addObservation(Long id, MedicalRecordObservationRequestDTO dto){
+        MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(() -> new RuntimeException("medical record with id : "+ id + "not found"));
+
+        medicalRecordMapper.updateEntityFromObservationDto(dto,medicalRecord);
         return medicalRecordMapper.toDto(medicalRecordRepository.save(medicalRecord));
     }
 }
