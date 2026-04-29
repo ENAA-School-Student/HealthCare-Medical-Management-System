@@ -1,6 +1,7 @@
 package com.healthcare.healthcare.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,9 +17,9 @@ public class MedicalRecordRequestDTO {
     private String diagnostic;
     @NotBlank(message = "the observation is required")
     private String observation;
-    @NotBlank(message = "date of the creation is required")
+    @NotNull(message = "date of the creation is required")
     private LocalDate dateCreation;
-    @NotBlank(message = "the id of the patient is required")
+    @NotNull(message = "the id of the patient is required")
     private Long patientId;
 
 }
