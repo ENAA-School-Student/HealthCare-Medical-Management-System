@@ -41,8 +41,13 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
     }
 
-    @GetMapping("/{patientId}")
+    @GetMapping("/searchp/patient/{patientId}")
     public ResponseEntity<List<AppointmentResponseDTO>> findAppointmentByPatientId(@PathVariable Long patientId) {
         return ResponseEntity.ok(appointmentService.findAppointmentByPatientId(patientId));
+    }
+
+    @GetMapping("/search/doctor/{doctorId}")
+    public ResponseEntity<List<AppointmentResponseDTO>> findAppointmentByDoctorId(@PathVariable Long doctorId) {
+        return ResponseEntity.ok(appointmentService.findAppointmentByDoctorId(doctorId));
     }
 }
