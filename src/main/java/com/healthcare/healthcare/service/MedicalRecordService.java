@@ -1,5 +1,6 @@
 package com.healthcare.healthcare.service;
 
+import com.healthcare.healthcare.dto.MedicalRecordDiagnosticRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordRequestDTO;
 import com.healthcare.healthcare.dto.MedicalRecordResponseDTO;
 import com.healthcare.healthcare.entity.MedicalRecord;
@@ -9,6 +10,7 @@ import com.healthcare.healthcare.repository.MedicalRecordRepository;
 import com.healthcare.healthcare.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +34,13 @@ public class MedicalRecordService {
                 .patient(patient)
                 .build();
 
+        return medicalRecordMapper.toDto(medicalRecordRepository.save(medicalRecord));
+    }
+
+    public MedicalRecordResponseDTO addDiagnostic(Long id, MedicalRecordDiagnosticRequestDTO dto){
+        MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(() -> new RuntimeException("medical record with id : "+ id + "not found"));
+
+        medicalRecordMapper.updateEntityFromDto(dto,medicalRecord);
         return medicalRecordMapper.toDto(medicalRecordRepository.save(medicalRecord));
     }
 }
