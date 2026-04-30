@@ -23,14 +23,19 @@ public class MedicalRecordController {
         return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecordService.addMedicalRecord(dto));
     }
 
-    @PatchMapping("/{id}/diagnostic")
+    @PatchMapping("/diagnostic/{id}")
     public ResponseEntity<MedicalRecordResponseDTO> addDiagnostic(@PathVariable Long id, @Valid @RequestBody MedicalRecordDiagnosticRequestDTO dto) {
         return ResponseEntity.ok(medicalRecordService.addDiagnostic(id, dto));
     }
 
-    @PatchMapping("/{id}/observation")
+    @PatchMapping("/observation/{id}")
     public ResponseEntity<MedicalRecordResponseDTO> addObservation(@PathVariable Long id, @Valid @RequestBody MedicalRecordObservationRequestDTO dto) {
         return ResponseEntity.ok(medicalRecordService.addObservation(id, dto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MedicalRecordResponseDTO> findMedicalRecordById(@PathVariable Long id){
+        return ResponseEntity.ok(medicalRecordService.findMedicalRecordById(id));
     }
 
 }

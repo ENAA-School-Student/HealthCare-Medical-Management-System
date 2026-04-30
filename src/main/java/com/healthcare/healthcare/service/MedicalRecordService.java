@@ -50,4 +50,10 @@ public class MedicalRecordService {
         medicalRecordMapper.updateEntityFromObservationDto(dto,medicalRecord);
         return medicalRecordMapper.toDto(medicalRecordRepository.save(medicalRecord));
     }
+
+    public MedicalRecordResponseDTO findMedicalRecordById(Long id){
+       MedicalRecord medicalRecord =  medicalRecordRepository.findById(id).orElseThrow(()-> new RuntimeException("medical record with id : "+ id + "not found"));
+       return medicalRecordMapper.toDto(medicalRecord);
+
+    }
 }
