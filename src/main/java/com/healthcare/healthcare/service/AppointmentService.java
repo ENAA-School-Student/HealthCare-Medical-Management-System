@@ -14,7 +14,10 @@ import com.healthcare.healthcare.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +60,7 @@ public class AppointmentService {
     public AppointmentResponseDTO updateAppointment(Long id , AppointmentRequestDTO dto){
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("appointment not found"));
-        appointmentMapper.updateEntityFromDto(dto,appointment);
+         appointmentMapper.updateEntityFromDto(dto,appointment);
         return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 

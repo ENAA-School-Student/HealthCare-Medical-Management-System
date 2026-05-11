@@ -1,31 +1,77 @@
 INSERT INTO patient (nom, prenom, email, telephone, dateNaissance) VALUES
-
- ('El Amrani', 'Youssef', 'youssef.elamrani@gmail.com', '0612345678', '1990-05-12'),
-
- ('Benali', 'Salma', 'salma.benali@gmail.com', '0623456789', '1985-09-23'),
-
- ('Alaoui', 'Karim', 'karim.alaoui@gmail.com', '0634567890', '1992-11-02');
-
+                                                                       ('El Amrani', 'Youssef', 'youssef.elamrani@gmail.com', '0612345678', '1990-05-12'),
+                                                                       ('Benali', 'Salma', 'salma.benali@gmail.com', '0623456789', '1985-09-23'),
+                                                                       ('Alaoui', 'Karim', 'karim.alaoui@gmail.com', '0634567890', '1992-11-02'),
+                                                                       ('Mouline', 'Nadia', 'nadia.mouline@gmail.com', '0645678901', '1988-03-15'),
+                                                                       ('Fassi', 'Omar', 'omar.fassi@gmail.com', '0656789012', '1995-07-21'),
+                                                                       ('Sbai', 'Imane', 'imane.sbai@gmail.com', '0667890123', '1983-12-30'),
+                                                                       ('Chakir', 'Rachid', 'rachid.chakir@gmail.com', '0678901234', '1991-01-11'),
+                                                                       ('Berrada', 'Hajar', 'hajar.berrada@gmail.com', '0689012345', '1996-04-25'),
+                                                                       ('Tahiri', 'Anas', 'anas.tahiri@gmail.com', '0690123456', '1987-09-09'),
+                                                                       ('Ouazzani', 'Meryem', 'meryem.ouazzani@gmail.com', '0611122233', '1993-02-18'),
+                                                                       ('Idrissi', 'Samir', 'samir.idrissi@gmail.com', '0622233444', '1989-06-27'),
+                                                                       ('Kabbaj', 'Siham', 'siham.kabbaj@gmail.com', '0633344555', '1994-10-05'),
+                                                                       ('Rami', 'Hamza', 'hamza.rami@gmail.com', '0644455666', '1982-11-19'),
+                                                                       ('Zerouali', 'Aya', 'aya.zerouali@gmail.com', '0655566777', '1997-08-14'),
+                                                                       ('Hassani', 'Younes', 'younes.hassani@gmail.com', '0666677888', '1990-12-01'),
+                                                                       ('Bakkali', 'Sara', 'sara.bakkali@gmail.com', '0677788999', '1986-05-07'),
+                                                                       ('Toumi', 'Adil', 'adil.toumi@gmail.com', '0688899000', '1992-03-03'),
+                                                                       ('El Idrissi', 'Fatima', 'fatima.elidrissi@gmail.com', '0699900111', '1984-07-29'),
+                                                                       ('Lamrabet', 'Mohamed', 'mohamed.lamrabet@gmail.com', '0612233445', '1991-09-17'),
+                                                                       ('Cherkaoui', 'Lina', 'lina.cherkaoui@gmail.com', '0623344556', '1987-01-22');
 
 INSERT INTO doctor (nom, specialite, email, telephone) VALUES
-    ('Haddad', 'Cardiologie', 'haddad@gmail.com', '0654321987'),
-    ('Tazi', 'Dermatologie', 'tazi@gmail.com', '0665432198'),
-    ('Idrissi', 'Pédiatrie', 'idrissi@gmail.com', '0676543219');
-
+                                                           ('Haddad', 'Cardiologie', 'haddad@gmail.com', '0654321987'),
+                                                           ('Tazi', 'Dermatologie', 'tazi@gmail.com', '0665432198'),
+                                                           ('Idrissi', 'Pédiatrie', 'idrissi@gmail.com', '0676543219'),
+                                                           ('Berrada', 'Neurologie', 'berrada@gmail.com', '0687654321'),
+                                                           ('Sbai', 'Cardiologie', 'sbai@gmail.com', '0698765432'),
+                                                           ('Fassi', 'Orthopédie', 'fassi@gmail.com', '0612345679'),
+                                                           ('Mouline', 'Gynécologie', 'mouline@gmail.com', '0623456780'),
+                                                           ('Tahiri', 'Dermatologie', 'tahiri@gmail.com', '0634567891'),
+                                                           ('Ouazzani', 'Pédiatrie', 'ouazzani@gmail.com', '0645678902'),
+                                                           ('Kabbaj', 'Neurologie', 'kabbaj@gmail.com', '0656789013'),
+                                                           ('Rami', 'Orthopédie', 'rami@gmail.com', '0667890124'),
+                                                           ('Zerouali', 'Gynécologie', 'zerouali@gmail.com', '0678901235'),
+                                                           ('Hassani', 'Cardiologie', 'hassani@gmail.com', '0689012346'),
+                                                           ('Bakkali', 'Dermatologie', 'bakkali@gmail.com', '0690123457'),
+                                                           ('Toumi', 'Pédiatrie', 'toumi@gmail.com', '0611122234'),
+                                                           ('El Idrissi', 'Neurologie', 'elidrissi@gmail.com', '0622233445'),
+                                                           ('Lamrabet', 'Orthopédie', 'lamrabet@gmail.com', '0633344556'),
+                                                           ('Cherkaoui', 'Gynécologie', 'cherkaoui@gmail.com', '0644455667'),
+                                                           ('Ouahbi', 'Cardiologie', 'ouahbi@gmail.com', '0655566778'),
+                                                           ('Bennis', 'Dermatologie', 'bennis@gmail.com', '0666677889');
 
 INSERT INTO appointment (dateRendezVous, status, patient_id, doctor_id) VALUES
-
-    ('2026-05-01 10:00:00', 'CONFIRMED', 1, 1),
-
-    ('2026-05-02 14:30:00', 'PENDING', 2, 2),
-
-    ('2026-05-03 09:15:00', 'CANCELLED', 3, 3);
-
+                                                                            ('2026-05-01 10:00:00', 'SCHEDULED', 1, 1),
+                                                                            ('2026-05-02 11:00:00', 'COMPLETED', 1, 2),
+                                                                            ('2026-05-03 14:00:00', 'CANCELLED', 1, 3),
+                                                                            ('2026-05-04 09:00:00', 'SCHEDULED', 1, 1),
+                                                                            ('2026-05-05 10:00:00', 'SCHEDULED', 1, 2),
+                                                                            ('2026-05-06 14:30:00', 'COMPLETED', 2, 2),
+                                                                            ('2026-05-07 10:00:00', 'SCHEDULED', 2, 3),
+                                                                            ('2026-05-08 15:00:00', 'SCHEDULED', 2, 4),
+                                                                            ('2026-05-09 09:15:00', 'CANCELLED', 3, 3),
+                                                                            ('2026-05-10 11:00:00', 'SCHEDULED', 3, 1),
+                                                                            ('2026-05-11 16:00:00', 'COMPLETED', 3, 5),
+                                                                            ('2026-05-12 11:00:00', 'SCHEDULED', 4, 4),
+                                                                            ('2026-05-13 08:00:00', 'SCHEDULED', 4, 5),
+                                                                            ('2026-05-14 15:00:00', 'COMPLETED', 5, 5),
+                                                                            ('2026-05-15 09:00:00', 'SCHEDULED', 5, 1),
+                                                                            ('2026-05-16 08:45:00', 'SCHEDULED', 6, 1),
+                                                                            ('2026-05-17 13:30:00', 'CANCELLED', 7, 2),
+                                                                            ('2026-05-18 16:00:00', 'SCHEDULED', 8, 3),
+                                                                            ('2026-12-01 10:00:00', 'SCHEDULED', 1, 1),
+                                                                            ('2026-12-15 14:00:00', 'SCHEDULED', 2, 2);
 
 INSERT INTO medicalrecord (diagnostic, observation, dateCreation, patient_id) VALUES
-
-    ('Hypertension', 'Patient avec tension élevée', '2026-04-01', 1),
-
-    ('Allergie cutanée', 'Réaction allergique saisonnière', '2026-04-05', 2),
-
-    ('Fièvre', 'Symptômes grippaux légers', '2026-04-10', 3);
+                                                                                  ('Hypertension', 'Patient avec tension élevée', '2026-04-01', 1),
+                                                                                  ('Allergie cutanée', 'Réaction allergique saisonnière', '2026-04-05', 2),
+                                                                                  ('Fièvre', 'Symptômes grippaux légers', '2026-04-10', 3),
+                                                                                  ('Diabète', 'Suivi glycémie régulière', '2026-04-12', 4),
+                                                                                  ('Asthme', 'Crises respiratoires fréquentes', '2026-04-14', 5),
+                                                                                  ('Migraine', 'Douleurs récurrentes', '2026-04-16', 6),
+                                                                                  ('Anémie', 'Fatigue persistante', '2026-04-18', 7),
+                                                                                  ('Arthrite', 'Douleurs articulaires', '2026-04-20', 8),
+                                                                                  ('Bronchite', 'Toux et gêne respiratoire', '2026-04-22', 9),
+                                                                                  ('Gastrite', 'Douleurs abdominales', '2026-04-24', 10);
