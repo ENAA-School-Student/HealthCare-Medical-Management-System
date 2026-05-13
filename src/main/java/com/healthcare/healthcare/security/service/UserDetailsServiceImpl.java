@@ -1,4 +1,4 @@
-package com.healthcare.healthcare.security;
+package com.healthcare.healthcare.security.service;
 
 import com.healthcare.healthcare.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    final UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
     @Override
-    public UserDetails loadUserByUsername(String email) {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email: "+ email + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 }
