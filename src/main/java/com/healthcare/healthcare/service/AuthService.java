@@ -21,7 +21,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public String register(RegisterRequestDTO request) {
+    public AuthResponseDTO register(RegisterRequestDTO request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
@@ -32,8 +32,12 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
-        userRepository.save(user);
-        return "User Registered Successfully";
+      User savedUser =  userRepository.save(user);
+        String token = jwtService.generateToken(savedUser);
+
+        return AuthResponseDTO.builder()
+                .token(token)
+                .build();
     }
 
     public AuthResponseDTO login(LoginRequestDTO dto) {

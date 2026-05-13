@@ -19,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public String register(
+    public AuthResponseDTO register(
             @Valid @RequestBody RegisterRequestDTO request
     ) {
 
