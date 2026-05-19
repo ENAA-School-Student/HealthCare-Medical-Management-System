@@ -9,30 +9,35 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/MedicalRecord")
+@RequestMapping("/api/medicalrecord")
 @RequiredArgsConstructor
 public class MedicalRecordController {
     private final MedicalRecordService medicalRecordService;
 
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping
     public ResponseEntity<MedicalRecordResponseDTO> addMedicalRecord(@Valid @RequestBody MedicalRecordRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecordService.addMedicalRecord(dto));
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PatchMapping("/diagnostic/{id}")
     public ResponseEntity<MedicalRecordResponseDTO> addDiagnostic(@PathVariable Long id, @Valid @RequestBody MedicalRecordDiagnosticRequestDTO dto) {
         return ResponseEntity.ok(medicalRecordService.addDiagnostic(id, dto));
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PatchMapping("/observation/{id}")
     public ResponseEntity<MedicalRecordResponseDTO> addObservation(@PathVariable Long id, @Valid @RequestBody MedicalRecordObservationRequestDTO dto) {
         return ResponseEntity.ok(medicalRecordService.addObservation(id, dto));
     }
 
+    @PreAuthorize("hasAnyRole('DOCTOR', 'PATIENT')")
     @GetMapping("/{id}")
     public ResponseEntity<MedicalRecordResponseDTO> findMedicalRecordById(@PathVariable Long id){
         return ResponseEntity.ok(medicalRecordService.findMedicalRecordById(id));

@@ -3,6 +3,7 @@ package com.healthcare.healthcare.service;
 import com.healthcare.healthcare.dto.AuthResponseDTO;
 import com.healthcare.healthcare.dto.LoginRequestDTO;
 import com.healthcare.healthcare.dto.RegisterRequestDTO;
+import com.healthcare.healthcare.entity.Role;
 import com.healthcare.healthcare.entity.User;
 import com.healthcare.healthcare.repository.UserRepository;
 import com.healthcare.healthcare.security.JwtService;
@@ -30,6 +31,7 @@ public class AuthService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
                 .build();
 
       User savedUser =  userRepository.save(user);
