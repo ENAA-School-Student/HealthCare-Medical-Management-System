@@ -12,6 +12,9 @@ import com.healthcare.healthcare.repository.AppointmentRepository;
 import com.healthcare.healthcare.repository.DoctorRepository;
 import com.healthcare.healthcare.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -53,8 +56,10 @@ public class AppointmentService {
         appointmentRepository.deleteById(id);
     }
 
-    public List<AppointmentResponseDTO> listOfAppointments(){
-        return appointmentMapper.toDtos(appointmentRepository.findAll());
+    public Page<AppointmentResponseDTO> listOfAppointments(int page,int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return appointmentRepository.findAll(pageable)
+                .map(appointmentMapper::toDto);
     }
 
     public AppointmentResponseDTO updateAppointment(Long id , AppointmentRequestDTO dto){

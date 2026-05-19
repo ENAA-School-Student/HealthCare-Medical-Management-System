@@ -9,6 +9,9 @@ import com.healthcare.healthcare.entity.Patient;
 import com.healthcare.healthcare.mapper.DoctorMapper;
 import com.healthcare.healthcare.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +39,10 @@ public class DoctorService {
         doctorRepository.deleteById(id);
     }
 
-    public List<DoctorResponseDTO> listOfDoctors(){
-        return doctorMapper.toDtos(doctorRepository.findAll());
+    public Page<DoctorResponseDTO> listOfDoctors(int page , int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return doctorRepository.findAll(pageable)
+                .map(doctorMapper::toDto);
     }
 
     public DoctorResponseDTO updateDoctor(Long id ,DoctorRequestDTO dto){

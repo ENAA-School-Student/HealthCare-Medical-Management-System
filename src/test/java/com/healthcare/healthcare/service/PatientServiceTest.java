@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -56,7 +57,7 @@ class PatientServiceTest {
         patientService.addPatient(dto1);
         patientService.addPatient(dto2);
 
-        List<PatientResponseDTO> responseDTOList = patientService.listOfPatients();
+        Page<PatientResponseDTO> responseDTOList = patientService.listOfPatients(0,10);
 
         assertNotNull(responseDTOList);
         assertFalse(responseDTOList.isEmpty());

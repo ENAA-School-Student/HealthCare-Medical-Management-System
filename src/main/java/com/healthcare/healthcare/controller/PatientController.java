@@ -5,6 +5,7 @@ import com.healthcare.healthcare.dto.PatientResponseDTO;
 import com.healthcare.healthcare.service.PatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PatientResponseDTO>> listOfPatients(){
-        return ResponseEntity.ok(patientService.listOfPatients());
+    public ResponseEntity<Page<PatientResponseDTO>> listOfPatients(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size){
+        return ResponseEntity.ok(patientService.listOfPatients(page, size));
     }
 
     @DeleteMapping("/{id}")

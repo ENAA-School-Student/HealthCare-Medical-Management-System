@@ -1,6 +1,8 @@
 package com.healthcare.healthcare.repository;
 
 import com.healthcare.healthcare.entity.Appointment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByPatient_Id(Long patientid);
 
     List<Appointment> findByDoctor_Id(Long doctorid);
+
+    @Override
+    Page<Appointment> findAll(Pageable pageable);
 }

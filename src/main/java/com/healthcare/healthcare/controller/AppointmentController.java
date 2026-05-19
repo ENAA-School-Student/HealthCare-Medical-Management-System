@@ -7,6 +7,7 @@ import com.healthcare.healthcare.dto.DoctorResponseDTO;
 import com.healthcare.healthcare.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,9 @@ public class AppointmentController {
         return ResponseEntity.noContent().build();
     }
 
-
     @GetMapping
-    public ResponseEntity<List<AppointmentResponseDTO>> listOfAppointments(){
-        return ResponseEntity.ok(appointmentService.listOfAppointments());
+    public ResponseEntity<Page<AppointmentResponseDTO>> listOfAppointments(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "10")int size){
+        return ResponseEntity.ok(appointmentService.listOfAppointments(page,size));
     }
 
     @PutMapping("/{id}")
