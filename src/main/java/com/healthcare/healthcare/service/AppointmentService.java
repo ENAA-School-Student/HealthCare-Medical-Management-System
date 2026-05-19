@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -56,8 +57,11 @@ public class AppointmentService {
         appointmentRepository.deleteById(id);
     }
 
-    public Page<AppointmentResponseDTO> listOfAppointments(int page,int size){
+    public Page<AppointmentResponseDTO> listOfAppointments(int page,int size, String sortBy, String sortDir){
         Pageable pageable = PageRequest.of(page,size);
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
         return appointmentRepository.findAll(pageable)
                 .map(appointmentMapper::toDto);
     }

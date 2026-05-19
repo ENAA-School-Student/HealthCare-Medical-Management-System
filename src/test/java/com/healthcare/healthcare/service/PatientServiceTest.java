@@ -57,7 +57,7 @@ class PatientServiceTest {
         patientService.addPatient(dto1);
         patientService.addPatient(dto2);
 
-        Page<PatientResponseDTO> responseDTOList = patientService.listOfPatients(0,10);
+        Page<PatientResponseDTO> responseDTOList = patientService.listOfPatients(0,10 ,"nom","asc");
 
         assertNotNull(responseDTOList);
         assertFalse(responseDTOList.isEmpty());

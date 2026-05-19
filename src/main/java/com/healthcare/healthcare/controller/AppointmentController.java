@@ -32,8 +32,10 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<AppointmentResponseDTO>> listOfAppointments(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "10")int size){
-        return ResponseEntity.ok(appointmentService.listOfAppointments(page,size));
+    public ResponseEntity<Page<AppointmentResponseDTO>> listOfAppointments(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "10")int size,
+                                                                           @RequestParam(defaultValue = "nom") String sortBy,
+                                                                           @RequestParam(defaultValue = "asc") String sortDir){
+        return ResponseEntity.ok(appointmentService.listOfAppointments(page,size, sortBy, sortDir));
     }
 
     @PutMapping("/{id}")

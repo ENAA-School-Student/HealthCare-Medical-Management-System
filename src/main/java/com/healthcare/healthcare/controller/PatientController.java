@@ -25,8 +25,10 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PatientResponseDTO>> listOfPatients(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size){
-        return ResponseEntity.ok(patientService.listOfPatients(page, size));
+    public ResponseEntity<Page<PatientResponseDTO>> listOfPatients(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size,
+                                                                   @RequestParam(defaultValue = "nom") String sortBy,
+                                                                   @RequestParam(defaultValue = "asc") String sortDir){
+        return ResponseEntity.ok(patientService.listOfPatients(page, size, sortBy, sortDir));
     }
 
     @DeleteMapping("/{id}")

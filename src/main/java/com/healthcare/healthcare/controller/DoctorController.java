@@ -31,8 +31,10 @@ public class DoctorController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DoctorResponseDTO>> listOfDoctors(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size){
-        return ResponseEntity.ok(doctorService.listOfDoctors(page,size));
+    public ResponseEntity<Page<DoctorResponseDTO>> listOfDoctors(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size,
+                                                                 @RequestParam(defaultValue = "nom") String sortBy,
+                                                                 @RequestParam(defaultValue = "asc") String sortDir){
+        return ResponseEntity.ok(doctorService.listOfDoctors(page,size, sortBy, sortDir));
     }
 
     @PutMapping("/{id}")
