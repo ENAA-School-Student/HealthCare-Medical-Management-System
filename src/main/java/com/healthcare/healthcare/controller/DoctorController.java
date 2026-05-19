@@ -41,4 +41,13 @@ public class DoctorController {
     public ResponseEntity<DoctorResponseDTO> updateDoctor(@Valid @PathVariable Long id , @RequestBody DoctorRequestDTO dto){
         return ResponseEntity.ok(doctorService.updateDoctor(id,dto));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<DoctorResponseDTO>> searchDoctorBySpecialite(
+            @RequestParam String specialite,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(
+                doctorService.searchDoctorBySpecialite(specialite, page, size));
+    }
 }

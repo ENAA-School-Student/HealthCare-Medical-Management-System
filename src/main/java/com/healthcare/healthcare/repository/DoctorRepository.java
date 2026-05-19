@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface DoctorRepository extends JpaRepository<Doctor , Long> {
 
     @Override
     Page<Doctor> findAll(Pageable pageable);
+
+
+   Page<Doctor> findBySpecialiteContaining(@Param("specialite")String specialite, Pageable pageable);
 }

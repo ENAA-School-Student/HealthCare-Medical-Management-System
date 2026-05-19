@@ -55,4 +55,11 @@ public class DoctorService {
         doctorMapper.updateEntityFromDto(dto,doctor);
         return doctorMapper.toDto(doctorRepository.save(doctor));
     }
+
+    public Page<DoctorResponseDTO> searchDoctorBySpecialite(
+            String specialite, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return doctorRepository.findBySpecialiteContaining(specialite, pageable)
+                .map(doctorMapper::toDto);
+    }
 }

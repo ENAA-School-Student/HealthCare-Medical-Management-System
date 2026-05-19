@@ -5,6 +5,7 @@ import com.healthcare.healthcare.dto.AppointmentResponseDTO;
 import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
 import com.healthcare.healthcare.entity.Appointment;
+import com.healthcare.healthcare.entity.AppointmentStatus;
 import com.healthcare.healthcare.entity.Doctor;
 import com.healthcare.healthcare.entity.Patient;
 import com.healthcare.healthcare.mapper.AppointmentMapper;
@@ -83,4 +84,8 @@ public class AppointmentService {
         return appointmentMapper.toDtos(appointments);
     }
 
+    public Page<AppointmentResponseDTO> findAppointmentByStatus(AppointmentStatus status,int page ,int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return appointmentRepository.findAppointmentsByStatus(status,pageable).map(appointmentMapper::toDto);
+    }
 }

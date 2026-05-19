@@ -59,5 +59,12 @@ public class PatientService {
         return patientMapper.toDto(patientRepository.save(patient));
     }
 
+    public Page<PatientResponseDTO> searchPatientsByName(
+            String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return patientRepository.findByNomContaining(name, pageable)
+                .map(patientMapper::toDto);
+    }
+
 
 }

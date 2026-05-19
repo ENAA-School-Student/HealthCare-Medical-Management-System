@@ -4,6 +4,7 @@ import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
 import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
+import com.healthcare.healthcare.entity.AppointmentStatus;
 import com.healthcare.healthcare.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,14 @@ public class AppointmentController {
     @GetMapping("/search/doctor/{doctorId}")
     public ResponseEntity<List<AppointmentResponseDTO>> findAppointmentByDoctorId(@PathVariable Long doctorId) {
         return ResponseEntity.ok(appointmentService.findAppointmentByDoctorId(doctorId));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<AppointmentResponseDTO>> searchAppointmentByStatus(
+            @RequestParam AppointmentStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(
+                appointmentService.findAppointmentByStatus(status, page, size));
     }
 }

@@ -47,4 +47,13 @@ public class PatientController {
         return ResponseEntity.ok(patientService.updatePatient(id,dto));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<PatientResponseDTO>> searchPatients(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(
+                patientService.searchPatientsByName(name, page, size));
+    }
+
 }
