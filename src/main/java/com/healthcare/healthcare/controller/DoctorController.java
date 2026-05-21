@@ -8,11 +8,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -58,14 +61,29 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.listOfDoctors(page,size, sortBy, sortDir));
     }
 
-    @PreAuthorize("('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PutMapping("/{id}")
     public ResponseEntity<DoctorResponseDTO> updateDoctor(@Valid @PathVariable Long id , @RequestBody DoctorRequestDTO dto){
 
         Long authUserId = getAuthenticatedUserId();
         String authUserRole = getAuthenticatedUserRole();
 
-        return ResponseEntity.ok(doctorService.updateDoctor(id,dto));
+        if(authUserRole.equals("ADMIN")){
+            return ResponseEntity.ok(doctorService.updateDoctor(id,dto));
+        }
+
+        if(authUserRole.equals("DOCTOR")){
+            if(!authUserId.equals(id)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body((DoctorResponseDTO) Map.of("message","Enter your correct Id"));
+
+            }
+            return ResponseEntity.ok(doctorService.updateDoctor(id,dto));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body((DoctorResponseDTO) Map.of("message","Enter your correct Id"));
+
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -67,7 +68,20 @@ public class AppointmentController {
         Long authUserId = getAuthenticatedUserId();
         String authUserRole = getAuthenticatedUserRole();
 
-        return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
+        if(authUserRole.equals("ADMIN")){
+            return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
+
+        }
+
+        if(authUserRole.equals("PATIENT")){
+            if(!authUserId.equals(id)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body((AppointmentResponseDTO) Map.of("message","Enter your correct Id"));
+            }
+            return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body((AppointmentResponseDTO) Map.of("message","Enter your correct Id"));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
@@ -77,7 +91,21 @@ public class AppointmentController {
         Long authUserId = getAuthenticatedUserId();
         String authUserRole = getAuthenticatedUserRole();
 
-        return ResponseEntity.ok(appointmentService.findAppointmentByPatientId(patientId));
+        if(authUserRole.equals("ADMIN")){
+            return ResponseEntity.ok(appointmentService.findAppointmentByPatientId(patientId));
+        }
+
+        if(authUserRole.equals("PATIENT")){
+            if(!authUserId.equals(patientId)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body((List<AppointmentResponseDTO>) Map.of("message","Enter your correct Id"));
+
+            }
+            return ResponseEntity.ok(appointmentService.findAppointmentByPatientId(patientId));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body((List<AppointmentResponseDTO>) Map.of("message","Enter your correct Id"));
+
     }
 
     @PreAuthorize("hasRole('ADMIN')")
