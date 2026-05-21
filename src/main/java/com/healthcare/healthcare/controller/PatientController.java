@@ -2,14 +2,20 @@ package com.healthcare.healthcare.controller;
 
 import com.healthcare.healthcare.dto.PatientRequestDTO;
 import com.healthcare.healthcare.dto.PatientResponseDTO;
+import com.healthcare.healthcare.entity.User;
 import com.healthcare.healthcare.service.PatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -18,6 +24,22 @@ import org.springframework.web.bind.annotation.*;
 public class PatientController {
 
     private final PatientService patientService;
+
+    private Long getAuthenticatedUserId() {
+        org.springframework.security.core.@Nullable Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
+    }
+
+    private String getAuthenticatedUserRole() {
+        @Nullable Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getRole().name();
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
@@ -40,16 +62,48 @@ public class PatientController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @GetMapping("/{id}")
     public ResponseEntity<PatientResponseDTO> findPatientById(@PathVariable Long id){
-        return ResponseEntity.ok(patientService.findPatientById(id));
+
+        Long authUserId = getAuthenticatedUserId();
+        String authUserRole = getAuthenticatedUserRole();
+
+        if(authUserRole.equals("ADMAIN")){
+            return ResponseEntity.ok(patientService.findPatientById(id));
+        }
+
+        if(authUserRole.equals("PATIENT")){
+            if(!authUserId.equals(id)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body((PatientResponseDTO) Map.of("message","Enter your correct Id"));
+            }
+            return ResponseEntity.ok(patientService.findPatientById(id));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body((PatientResponseDTO) Map.of("message","you don't have the permession to get this data"));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @PutMapping("/{id}")
     public ResponseEntity<PatientResponseDTO> updatePatient(@Valid @PathVariable Long id , @RequestBody PatientRequestDTO dto){
-        return ResponseEntity.ok(patientService.updatePatient(id,dto));
+
+        Long authUserId = getAuthenticatedUserId();
+        String authUserRole = getAuthenticatedUserRole();
+
+        if(authUserRole.equals("ADMAIN")){
+            return ResponseEntity.ok(patientService.updatePatient(id,dto));
+        }
+
+        if(authUserRole.equals("PATIENT")){
+            if(!authUserId.equals(id)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body((PatientResponseDTO) Map.of("message","Enter your correct Id"));
+            }
+            return ResponseEntity.ok(patientService.updatePatient(id,dto));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body((PatientResponseDTO) Map.of("message","Enter your correct Id"));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

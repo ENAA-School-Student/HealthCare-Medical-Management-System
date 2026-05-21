@@ -2,12 +2,16 @@ package com.healthcare.healthcare.controller;
 
 import com.healthcare.healthcare.dto.DoctorRequestDTO;
 import com.healthcare.healthcare.dto.DoctorResponseDTO;
+import com.healthcare.healthcare.entity.User;
 import com.healthcare.healthcare.service.DoctorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,6 +20,22 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DoctorController {
     private final DoctorService doctorService;
+
+    private Long getAuthenticatedUserId() {
+        org.springframework.security.core.@Nullable Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
+    }
+
+    private String getAuthenticatedUserRole() {
+        @Nullable Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getRole().name();
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
@@ -38,9 +58,13 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.listOfDoctors(page,size, sortBy, sortDir));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<DoctorResponseDTO> updateDoctor(@Valid @PathVariable Long id , @RequestBody DoctorRequestDTO dto){
+
+        Long authUserId = getAuthenticatedUserId();
+        String authUserRole = getAuthenticatedUserRole();
+
         return ResponseEntity.ok(doctorService.updateDoctor(id,dto));
     }
 

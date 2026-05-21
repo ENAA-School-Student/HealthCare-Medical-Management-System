@@ -3,13 +3,17 @@ package com.healthcare.healthcare.controller;
 import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
 import com.healthcare.healthcare.entity.AppointmentStatus;
+import com.healthcare.healthcare.entity.User;
 import com.healthcare.healthcare.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +23,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppointmentController {
     private  final AppointmentService appointmentService;
+
+    private Long getAuthenticatedUserId() {
+        org.springframework.security.core.@Nullable Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
+    }
+
+    private String getAuthenticatedUserRole() {
+        @Nullable Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getRole().name();
+    }
 
     @PreAuthorize("hasRole('PATIENT')")
     @PostMapping
@@ -41,15 +61,22 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.listOfAppointments(page,size, sortBy, sortDir));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @PutMapping("/{id}")
     public ResponseEntity<AppointmentResponseDTO> updateAppointment(@Valid @PathVariable Long id , @RequestBody AppointmentRequestDTO dto){
+        Long authUserId = getAuthenticatedUserId();
+        String authUserRole = getAuthenticatedUserRole();
+
         return ResponseEntity.ok(appointmentService.updateAppointment(id,dto));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @GetMapping("/searchp/patient/{patientId}")
     public ResponseEntity<List<AppointmentResponseDTO>> findAppointmentByPatientId(@PathVariable Long patientId) {
+
+        Long authUserId = getAuthenticatedUserId();
+        String authUserRole = getAuthenticatedUserRole();
+
         return ResponseEntity.ok(appointmentService.findAppointmentByPatientId(patientId));
     }
 
