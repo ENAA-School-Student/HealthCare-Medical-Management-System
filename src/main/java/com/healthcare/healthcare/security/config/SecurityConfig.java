@@ -2,6 +2,8 @@ package com.healthcare.healthcare.security.config;
 
 import com.healthcare.healthcare.security.JwtAuthenticationFilter;
 import com.healthcare.healthcare.security.service.UserDetailsServiceImpl;
+import com.healthcare.healthcare.exception.CustomAccessDeniedHandler;
+import com.healthcare.healthcare.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -28,6 +28,10 @@ public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    // ✅ NEW: security exception handlers
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -51,6 +55,12 @@ public class SecurityConfig {
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
+                )
+
+                // ✅ THIS IS THE KEY PART
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(authenticationEntryPoint) // 401
+                        .accessDeniedHandler(accessDeniedHandler)           // 403
                 );
 
         return http.build();
@@ -66,9 +76,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
+    @Bean public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider =
                 new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
