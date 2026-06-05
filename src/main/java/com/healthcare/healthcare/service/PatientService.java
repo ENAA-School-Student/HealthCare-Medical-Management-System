@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 
 
 @RequiredArgsConstructor
@@ -31,10 +32,11 @@ public class PatientService {
     }
 
     public Page<PatientResponseDTO> listOfPatients(int page, int size, String sortBy, String sortDir){
-        Pageable pageable = PageRequest.of(page,size);
+
         Sort sort = sortDir.equalsIgnoreCase("asc")
                 ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
         return patientRepository.findAll(pageable)
                 .map(patientMapper::toDto);
     }
@@ -65,6 +67,4 @@ public class PatientService {
         return patientRepository.findByNomContaining(name, pageable)
                 .map(patientMapper::toDto);
     }
-
-
 }
