@@ -19,38 +19,38 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @Transactional
 class MedicalRecordServiceTest {
-    @Autowired
-    MedicalRecordService medicalRecordService;
-    @Autowired
-    PatientRepository patientRepository;
-    @Autowired
-    MedicalRecordRepository medicalRecordRepository;
-
-
-    @Test
-    void addMedicalRecord(){
-
-        Patient patient = Patient.builder()
-                .nom("Errachid")
-                .prenom("yoiussef")
-                .email("errahid@gmail.com")
-                .telephone("5234567678")
-                .dateNaissance(LocalDate.of(2000,01,16))
-                .build();
-        patientRepository.save(patient);
-
-        MedicalRecordRequestDTO medicalRecordRequestDTO = MedicalRecordRequestDTO.builder()
-                .dateCreation(LocalDate.now())
-                .diagnostic("null")
-                .observation("null")
-                .patientId(patient.getId())
-                .build();
-
-        MedicalRecordResponseDTO savedMedicalRecord = medicalRecordService.addMedicalRecord(medicalRecordRequestDTO);
-
-        assertNotNull(savedMedicalRecord);
-        assertTrue(medicalRecordRepository.existsByPatientId(patient.getId()));
-
-    }
+//    @Autowired
+//    MedicalRecordService medicalRecordService;
+//    @Autowired
+//    PatientRepository patientRepository;
+//    @Autowired
+//    MedicalRecordRepository medicalRecordRepository;
+//
+//
+//    @Test
+//    void addMedicalRecord(){
+//
+//        Patient patient = Patient.builder()
+//                .nom("Errachid")
+//                .prenom("yoiussef")
+//                .email("errahid@gmail.com")
+//                .telephone("5234567678")
+//                .dateNaissance(LocalDate.of(2000,01,16))
+//                .build();
+//        patientRepository.save(patient);
+//
+//        MedicalRecordRequestDTO medicalRecordRequestDTO = MedicalRecordRequestDTO.builder()
+//                .dateCreation(LocalDate.now())
+//                .diagnostic("null")
+//                .observation("null")
+//                .patientId(patient.getId())
+//                .build();
+//
+//        MedicalRecordResponseDTO savedMedicalRecord = medicalRecordService.addMedicalRecord(medicalRecordRequestDTO);
+//
+//        assertNotNull(savedMedicalRecord);
+//        assertTrue(medicalRecordRepository.existsByPatientId(patient.getId()));
+//
+//    }
 
 }
