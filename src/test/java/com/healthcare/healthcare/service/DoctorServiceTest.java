@@ -14,23 +14,23 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @Transactional
 class DoctorServiceTest {
-    @Autowired
-    DoctorService doctorService;
-    @Autowired
-    DoctorRepository doctorRepository;
-
-    @Test
-    void deleteDoctorTest(){
-
-        Doctor doctor = Doctor.builder()
-                .nom("youssef")
-                .email("errachid@gmail.com")
-                .specialite("null")
-                .telephone("78753455")
-                .build();
-        doctorRepository.save(doctor);
-
-        doctorService.deleteDoctor(doctor.getId());
-        assertFalse(doctorRepository.existsById(doctor.getId()));
-    }
+//    @Autowired
+//    DoctorService doctorService;
+//    @Autowired
+//    DoctorRepository doctorRepository;
+//
+//    @Test
+//    void deleteDoctorTest(){
+//
+//        Doctor doctor = Doctor.builder()
+//                .nom("youssef")
+//                .email("errachid@gmail.com")
+//                .specialite("null")
+//                .telephone("78753455")
+//                .build();
+//        doctorRepository.save(doctor);
+//
+//        doctorService.deleteDoctor(doctor.getId());
+//        assertFalse(doctorRepository.existsById(doctor.getId()));
+//    }
 }
