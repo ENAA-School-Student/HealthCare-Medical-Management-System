@@ -1,6 +1,7 @@
 package com.healthcare.healthcare.dto;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PatientResponseDTO {
+public class PatientResponseDTO implements Serializable {
 
     private Long id;
     private String nom ;

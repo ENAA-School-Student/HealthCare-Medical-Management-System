@@ -2,8 +2,6 @@ package com.healthcare.healthcare.service;
 
 import com.healthcare.healthcare.dto.AppointmentRequestDTO;
 import com.healthcare.healthcare.dto.AppointmentResponseDTO;
-import com.healthcare.healthcare.dto.DoctorRequestDTO;
-import com.healthcare.healthcare.dto.DoctorResponseDTO;
 import com.healthcare.healthcare.entity.Appointment;
 import com.healthcare.healthcare.entity.AppointmentStatus;
 import com.healthcare.healthcare.entity.Doctor;
@@ -13,16 +11,17 @@ import com.healthcare.healthcare.repository.AppointmentRepository;
 import com.healthcare.healthcare.repository.DoctorRepository;
 import com.healthcare.healthcare.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +32,7 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
+    @CachePut(value = "appointment", key = "#result.id")
     public AppointmentResponseDTO addAppointment(AppointmentRequestDTO dto){
         if(appointmentRepository.existsByDateRendezVousAndDoctorId(dto.getDateRendezVous(),dto.getDoctorId())){
             throw new RuntimeException("appointment already exist");
@@ -50,6 +50,7 @@ public class AppointmentService {
         return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 
+    @CacheEvict(value = "appointment", key = "#id")
     public void deleteAppointment(Long id){
         if (!appointmentRepository.existsById(id)){
             throw new RuntimeException("appointment with id: " + id + "not found");
@@ -58,6 +59,10 @@ public class AppointmentService {
         appointmentRepository.deleteById(id);
     }
 
+    @Cacheable(
+            value = "appointment",
+            key = "#page + '-' + #size + '-' + #sortBy + '-' + #sortDir"
+    )
     public Page<AppointmentResponseDTO> listOfAppointments(int page,int size, String sortBy, String sortDir){
         Pageable pageable = PageRequest.of(page,size);
         Sort sort = sortDir.equalsIgnoreCase("asc")
@@ -67,6 +72,7 @@ public class AppointmentService {
                 .map(appointmentMapper::toDto);
     }
 
+    @CachePut(value = "appointment", key = "#id")
     public AppointmentResponseDTO updateAppointment(Long id , AppointmentRequestDTO dto){
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("appointment not found"));
@@ -84,6 +90,10 @@ public class AppointmentService {
         return appointmentMapper.toDtos(appointments);
     }
 
+    @Cacheable(
+            value = "appointmentStatus",
+            key = "#status + '-' + #page + '-' + #size"
+    )
     public Page<AppointmentResponseDTO> findAppointmentByStatus(AppointmentStatus status,int page ,int size){
         Pageable pageable = PageRequest.of(page, size);
         return appointmentRepository.findAppointmentsByStatus(status,pageable).map(appointmentMapper::toDto);

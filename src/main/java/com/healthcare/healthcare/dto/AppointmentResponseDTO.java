@@ -3,6 +3,7 @@ package com.healthcare.healthcare.dto;
 import com.healthcare.healthcare.entity.AppointmentStatus;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppointmentResponseDTO {
+public class AppointmentResponseDTO implements Serializable {
     private Long id;
     private LocalDateTime dateRendezVous;
     private AppointmentStatus status;

@@ -2,6 +2,7 @@ package com.healthcare.healthcare.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MedicalRecordResponseDTO {
+public class MedicalRecordResponseDTO implements Serializable {
 
     private Long id ;
     private String diagnostic;

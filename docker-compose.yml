@@ -37,6 +37,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  redis:
+    image: redis:latest
+    container_name: healthcare-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   app-network:
