@@ -4,15 +4,6 @@ services:
     ports:
       - "8080:8080"
     container_name: healthcare-app
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/healthcare_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=1234567890
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
-      - SPRING_JPA_HIBERNATE_NAMING_PHYSICAL_STRATEGY=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      - SPRING_FLYWAY_ENABLED=true
-      - SPRING_FLYWAY_LOCATIONS=classpath:db/migration
-      - SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
     depends_on:
       db:
         condition: service_healthy
@@ -30,13 +21,15 @@ services:
       - "3308:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      interval: 20s
+      timeout: 10s
+      retries: 10
+
   redis:
     image: redis:latest
     container_name: healthcare-redis
@@ -46,7 +39,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -54,6 +47,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
 
 volumes:
   db_data:
