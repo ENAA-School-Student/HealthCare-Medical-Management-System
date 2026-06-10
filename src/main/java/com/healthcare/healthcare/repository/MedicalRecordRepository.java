@@ -13,4 +13,5 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
 
     @Override
     Page<MedicalRecord> findAll(Pageable pageable);
+    MedicalRecord findByPatientId(Long  patientId);
 }
