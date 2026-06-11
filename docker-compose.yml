@@ -1,29 +1,54 @@
+version: '3.9'
+
 services:
+
   app:
     build: .
+    container_name: healthcare-app
+
     ports:
       - "8080:8080"
-    container_name: healthcare-app
+
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    environment:
+      SPRING_APPLICATION_NAME: healthcare
+
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/healthcare_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234567890
+
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+
     networks:
       - app-network
 
   db:
     image: mysql:8.0
+
     container_name: healthcare-db
+
     restart: always
+
     environment:
-      - MYSQL_DATABASE=healthcare_db
-      - MYSQL_ROOT_PASSWORD=1234567890
+      MYSQL_DATABASE: healthcare_db
+      MYSQL_ROOT_PASSWORD: 123454321
+
     ports:
-      - "3308:3306"
+      - "3308:3307"
+
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
     networks:
       - app-network
+
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 20s
@@ -32,12 +57,17 @@ services:
 
   redis:
     image: redis:latest
+
     container_name: healthcare-redis
+
     restart: always
+
     ports:
       - "6379:6379"
+
     networks:
       - app-network
+
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -47,7 +77,6 @@ services:
 networks:
   app-network:
     driver: bridge
-
 
 volumes:
   db_data:
