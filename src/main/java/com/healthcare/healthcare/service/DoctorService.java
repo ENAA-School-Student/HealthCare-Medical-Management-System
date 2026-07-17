@@ -76,4 +76,7 @@ public class DoctorService {
         return doctorRepository.findBySpecialiteContaining(specialite, pageable)
                 .map(doctorMapper::toDto);
     }
+    public Long countDoctors() {
+        return doctorRepository.count();
+    }
 }

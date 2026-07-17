@@ -77,4 +77,7 @@ public class PatientService {
         return patientRepository.findByNomContaining(name, pageable)
                 .map(patientMapper::toDto);
     }
+    public Long countPatients() {
+        return patientRepository.count();
+    }
 }

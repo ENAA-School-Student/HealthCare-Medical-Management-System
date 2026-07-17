@@ -20,7 +20,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -97,5 +103,34 @@ public class AppointmentService {
     public Page<AppointmentResponseDTO> findAppointmentByStatus(AppointmentStatus status,int page ,int size){
         Pageable pageable = PageRequest.of(page, size);
         return appointmentRepository.findAppointmentsByStatus(status,pageable).map(appointmentMapper::toDto);
+    }
+
+    public Long countAppointmentsToday() {
+        return appointmentRepository.countAppointmentsToday();
+    }
+
+    public List<AppointmentResponseDTO> getTop4RecentAppointments() {
+        return appointmentMapper.toDtos(appointmentRepository.findTop4RecentAppointments());
+    }
+
+    public List<Map<String, Object>> getAppointmentsThisWeek() {
+        LocalDateTime startOfWeek = LocalDate.now()
+                .with(DayOfWeek.MONDAY)
+                .atStartOfDay();
+        LocalDateTime endOfWeek = LocalDate.now()
+                .with(DayOfWeek.SUNDAY)
+                .atTime(23, 59, 59);
+
+        List<Object[]> results = appointmentRepository
+                .countAppointmentsPerDayThisWeek(startOfWeek, endOfWeek);
+
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (Object[] row : results) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("day", row[0]);
+            map.put("appointments", row[1]);
+            data.add(map);
+        }
+        return data;
     }
 }

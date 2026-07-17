@@ -95,4 +95,8 @@ public class DoctorController {
         return ResponseEntity.ok(
                 doctorService.searchDoctorBySpecialite(specialite, page, size));
     }
+    @GetMapping("/count")
+    public ResponseEntity<Long> countPatients() {
+        return ResponseEntity.ok(doctorService.countDoctors());
+    }
 }

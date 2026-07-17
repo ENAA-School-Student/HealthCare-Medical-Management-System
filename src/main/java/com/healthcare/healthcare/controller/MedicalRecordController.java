@@ -63,4 +63,9 @@ public class MedicalRecordController {
                 .headers(headers)
                 .body(pdfBytes);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countMedicalRecode() {
+        return ResponseEntity.ok(medicalRecordService.countMedicalRecord());
+    }
 }

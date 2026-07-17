@@ -56,4 +56,8 @@ public class MedicalRecordService {
        return medicalRecordMapper.toDto(medicalRecord);
 
     }
+
+    public Long countMedicalRecord() {
+        return medicalRecordRepository.count();
+    }
 }

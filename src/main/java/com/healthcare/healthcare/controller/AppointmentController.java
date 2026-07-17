@@ -41,7 +41,7 @@ public class AppointmentController {
         return user.getRole().name();
     }
 
-    @PreAuthorize("hasRole('PATIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @PostMapping
     public ResponseEntity<AppointmentResponseDTO> addAppointment(@Valid @RequestBody AppointmentRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(appointmentService.addAppointment(dto));
@@ -122,5 +122,20 @@ public class AppointmentController {
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(
                 appointmentService.findAppointmentByStatus(status, page, size));
+    }
+
+    @GetMapping("/count/today")
+    public ResponseEntity<Long> countAppointmentsToday() {
+        return ResponseEntity.ok(appointmentService.countAppointmentsToday());
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<AppointmentResponseDTO>> getTop4RecentAppointments() {
+        return ResponseEntity.ok(appointmentService.getTop4RecentAppointments());
+    }
+
+    @GetMapping("/week")
+    public ResponseEntity<List<Map<String, Object>>> getAppointmentsThisWeek() {
+        return ResponseEntity.ok(appointmentService.getAppointmentsThisWeek());
     }
 }

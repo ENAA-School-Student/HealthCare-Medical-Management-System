@@ -115,5 +115,10 @@ public class PatientController {
                 patientService.searchPatientsByName(name, page, size));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> countPatients() {
+        return ResponseEntity.ok(patientService.countPatients());
+    }
+
 }
 
