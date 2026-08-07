@@ -1,5 +1,5 @@
 # HealthCare-Medical-Management-System
-Full-stack web application and REST API enabling healthcare professionals 
+Full-stack web application and REST API enabling healthcare managgement system professionals 
 and administrators to manage patients, doctors, appointments, and medical 
 records in order to streamline clinic operations and improve medical data accessibility.
 
